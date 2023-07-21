@@ -1,8 +1,7 @@
 <?php
 
 require_once 'config.php';
-// echo "USAO SI NA PLATFORMU! <br>";    
-// var_dump($_SESSION);                 
+                
 if (!isset($_SESSION['admin_id'])) {
     header('location: index.php');
     exit();
@@ -15,6 +14,7 @@ if (!isset($_SESSION['admin_id'])) {
 <head>
     <title>Admin_Dashboard</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/dropzone@5/dist/min/dropzone.min.css" type="text/css" />
 </head>
 
 <body>
@@ -71,7 +71,29 @@ if (!isset($_SESSION['admin_id'])) {
 
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity=""></script>
+    <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
+    
+    <script>
+        Dropzone.options.dropzoneUpload = {
+            url: "uplod_photo.php",
+            paramName: "photo",
+            maxFilesize: 20, // MB
+            acceptedFiles: "image/*",
+            init: function () {
+                this.on("success", function (file, response) {
+                    // Parse the JSON response
+                    const jsonResponse = JSON.parse(response);
+                    // Check if the file was uploaded successfuly
+                    if (jsonResponse.success) {
+                        // Set the hidden input's value to the uploaded file's path
+                        document.getElementById('photoPathInput').value = jsonResponse.photo_path;
+                   } else {
+                     conole.error(jsonResponse.error);
+                   }
+                });
+            }
+        };
+    </script>
 
 </body>
-
 </html>

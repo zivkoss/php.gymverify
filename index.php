@@ -14,6 +14,8 @@ require_once 'config.php';
 
         $results = $run->get_result();
 
+        $conn->close();
+
         if($results->num_rows == 1) {
 
             $admin = $results->fetch_assoc();
