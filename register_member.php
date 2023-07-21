@@ -1,6 +1,7 @@
 <?php
 
 require_once 'config.php';
+require_once 'fpdf/fpdf.php';
 
 if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $first_name = $_POST['first_name'];
@@ -21,7 +22,28 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $run->bind_param("sssssiis", $first_name, $last_name, $email, $phone_number, $photo_path, $training_plan_id, $trainer_id, $access_card_pdf);
     $run->execute();
 
-    $_SESSION['success_message'] = 'Clan tretane uspesno dodat';
+    $member_id = $conn->insert_id;
+
+    
+    $pdf = new FPDF();
+    $pdf->AddPage();
+    $PDF->SetFont('Arial', 'B', 16);
+
+    $pdf->Cell(40, 10, 'Access Card');
+    $pdf->Ln();
+    $pdf->Cell(40, 10, 'Member ID: ' . $member_id);
+    $pdf->Ln();
+    $pdf->Cell(40, 10, 'Name : ' . $first_name . " " . $last_name);
+    $pdf->Ln();
+    $pdf->Cell(40, 10, 'Email: ' . $email);
+    $pdf->Ln();
+
+    $filename = 'access_cards/access_card_' . $member_id . '.pdf';
+    $pdf->Output('F', $filename);
+
+    $sql = "UPDATE members SET access_card_pdf_path = '$filename' WHERE member_id = $member_id";
+
+    $_SESSION['success_message'] = 'Clan teretane uspesno dodat';
     header('location: admin_dashboard.php');
     exit();
 
