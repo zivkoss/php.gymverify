@@ -50,12 +50,13 @@ require_once 'config.php';
     
     if(isset($_SESSION['error'])) {
         echo $_SESSION['error'] . "<br>";
+        
         unset($_SESSION['error']);
     }
 
     ?>
 
-    <form action="" method="post">
+    <form action="" method="POST">
         Username: <input type="text" name="username"><br>
         Password: <input type="password" name="password"><br>
         <input type="submit" value="Login">

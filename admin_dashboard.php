@@ -10,7 +10,7 @@ if (!isset($_SESSION['admin_id'])) {
 
 ?>
 <!DOCTYPE html>
-<html lang="en">
+<html>
 
 <head>
     <title>Admin_Dashboard</title>
