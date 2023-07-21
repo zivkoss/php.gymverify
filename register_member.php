@@ -20,6 +20,11 @@ if ($_SERVER['REQUEST_METHOD'] == "POST") {
     $run = $conn->prepare($sql);
     $run->bind_param("sssssiis", $first_name, $last_name, $email, $phone_number, $photo_path, $training_plan_id, $trainer_id, $access_card_pdf);
     $run->execute();
+
+    $_SESSION['success_message'] = 'Clan tretane uspesno dodat';
+    header('location: admin_dashboard.php');
+    exit();
+
 }
 
 //**** 
