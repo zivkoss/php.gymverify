@@ -31,11 +31,11 @@ if (!isset($_SESSION['admin_id'])) {
                 Training Plan:
                 <select class="form-control" name="training_plan_id">
                      <option value="" disabled selected>Training Plan</option>
-                     <option value="">12 sessions plan</option>
-                     <option value="">30 sessions plan</option>
+                     <option value="1">12 sessions plan</option>
+                     <option value="2">30 sessions plan</option>
                 </select><br>
                 <input type="hidden" name="photo_path" id="photoPathInput">
-                 
+
                 <div id="dropzone-upload" class="dropzone"></div>
 
                 <input class="btn btn-primary mt-3" type="submit" value="Register Member">
@@ -45,5 +45,4 @@ if (!isset($_SESSION['admin_id'])) {
     </div>
 
 </body>
-
 </html>
