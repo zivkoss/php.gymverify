@@ -57,9 +57,12 @@ if (!isset($_SESSION['admin_id'])) {
                     <tbody>
                          <?php
                          $sql = "SELECT members.*,
-                         training_plans.name AS training_plan_name
+                         training_plans.name AS training_plan_name,
+                         trainers.first_name AS trainer_first_name,
+                         trainers.last_name AS trainer_last_name
                          FROM `members` 
-                         LEFT JOIN `training_plans` ON members.training_plan_id = training_plans.plan_id;";
+                         LEFT JOIN `training_plans` ON members.training_plan_id = training_plans.plan_id
+                         LEFT JOIN `trainers` ON members.trainer_id = trainers.trainer_id;";
 
                          $run = $conn->query($sql);
 
@@ -82,7 +85,6 @@ if (!isset($_SESSION['admin_id'])) {
                                 echo "Nema plana";
                             }
 
-                            
                             ?></td>
                             <td><a target="_blank" href="<?php echo $result['access_card_pdf_path']; ?>">Access Card</a></td>
                             <td><?php 
