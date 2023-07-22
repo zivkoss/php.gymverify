@@ -14,23 +14,28 @@ require_once 'config.php';
 
         $results = $run->get_result();
 
-        $conn->close();
-
         if($results->num_rows == 1) {
 
             $admin = $results->fetch_assoc();
             // var_dump($admin);
             if(password_verify($password, $admin['password'])) {
                 $_SESSION['admin_id'] = $admin['admin_id'];
+
+                $conn->close();
                 header('location: admin_dashboard.php');
             } else {
                 $_SESSION['error'] = "Netacan password!";
+
+                $conn->close();
                 header('location: index.php');
                 exit();
             }
 
         } else {
             $_SESSION['error'] = "Netacan username!";
+    
+
+            $conn->close();
             header('location: index.php');
             exit();
         }

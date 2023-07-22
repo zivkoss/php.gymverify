@@ -1,7 +1,7 @@
 <?php
 
 require_once 'config.php';
-                
+
 if (!isset($_SESSION['admin_id'])) {
     header('location: index.php');
     exit();
@@ -32,6 +32,59 @@ if (!isset($_SESSION['admin_id'])) {
 
 
     <div class="container">
+
+
+        <div class="row">
+            <div class="col-md-12">
+
+                <h2>Members List</h2>
+
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>First Name</th>
+                            <th>Last Name</th>
+                            <th>Email</th>
+                            <th>Phone Number</th>
+                            <th>Trainer</th>
+                            <th>Photo</th>
+                            <th>Trainer Plan</th>
+                            <th>Acces Card</th>
+                            <th>Created At</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                         <?php
+                         $sql = "SELECT * FROM members";
+
+                         $run = $conn->query($sql);
+
+                         $results = $run->fetch_all(MYSQLI_ASSOC);
+                         //  var_dump($results);
+                         foreach($results as $result) : ?>
+                         
+                         <tr>
+                            <td><?php echo $result['first_name']; ?></td>
+                            <td><?php echo $result['last_name']; ?></td>
+                            <td><?php echo $result['email']; ?></td>
+                            <td><?php echo $result['phone_number']; ?></td>
+                            <td><?php echo $result['trainer_id']; ?></td>
+                            <td><img style="width: 60px;" src="<?php echo $result['photo_path']; ?>"></td>
+                            <td><?php echo $result['training_plan_id']; ?></td>
+                            <td><?php echo $result['access_card_pdf_path']; ?></td>
+                            <td><?php echo $result['created_at']; ?></td>
+                            <td><button>DELETE</button></td>
+                         </tr>
+
+                         <?php endforeach; ?>     
+                    
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
         <div class="row mb-5">
             <div class="col-md-6">
                 <h2>Register Member</h2>
@@ -69,31 +122,33 @@ if (!isset($_SESSION['admin_id'])) {
         </div>
     </div>
 
+    <?php $conn->close(); ?>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity=""></script>
     <script src="https://unpkg.com/dropzone@5/dist/min/dropzone.min.js"></script>
-    
+
     <script>
         Dropzone.options.dropzoneUpload = {
             url: "uplod_photo.php",
             paramName: "photo",
             maxFilesize: 20, // MB
             acceptedFiles: "image/*",
-            init: function () {
-                this.on("success", function (file, response) {
+            init: function() {
+                this.on("success", function(file, response) {
                     // Parse the JSON response
                     const jsonResponse = JSON.parse(response);
                     // Check if the file was uploaded successfuly
                     if (jsonResponse.success) {
                         // Set the hidden input's value to the uploaded file's path
                         document.getElementById('photoPathInput').value = jsonResponse.photo_path;
-                   } else {
-                     conole.error(jsonResponse.error);
-                   }
+                    } else {
+                        conole.error(jsonResponse.error);
+                    }
                 });
             }
         };
     </script>
 
 </body>
+
 </html>
