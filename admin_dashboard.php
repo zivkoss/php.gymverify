@@ -38,7 +38,9 @@ if (!isset($_SESSION['admin_id'])) {
             <div class="col-md-12">
 
                 <h2>Members List</h2>
-
+ 
+                <a href="export.php?what=members" class="btn btn-success btn-sm">Export</a>
+                
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -67,6 +69,7 @@ if (!isset($_SESSION['admin_id'])) {
                         $run = $conn->query($sql);
 
                         $results = $run->fetch_all(MYSQLI_ASSOC);
+                        $select_members = $results;
                         //  var_dump($results);
                         foreach ($results as $result) : ?>
 
@@ -137,22 +140,20 @@ if (!isset($_SESSION['admin_id'])) {
                         $run = $conn->query($sql);
 
                         $results = $run->fetch_all(MYSQLI_ASSOC);
+                        $select_trainers = $results;
                         //  var_dump($results);
                         foreach ($results as $result) : ?>
 
-
-
                         <tr>
-                            <td><?php $result['first_name']; ?></td>
-                            <td><?php $result['last_name']; ?></td>
-                            <td><?php $result['email']; ?></td>
-                            <td><?php $result['phone_number']; ?></td>
-                            <td><?php $result("F jS, Y", strtotime($result['created_at'])); ?></td>
+                            <td><?php echo $result['first_name']; ?></td>
+                            <td><?php echo $result['last_name']; ?></td>
+                            <td><?php echo $result['email']; ?></td>
+                            <td><?php echo $result['phone_number']; ?></td>
+                            <td><?php echo date("F jS, Y", strtotime($result['created_at'])); ?></td>
                         </tr> 
- 
-                        
                         
                         <?php endforeach; ?>
+
                     </tbody>
                 </table>
             </div>
@@ -200,6 +201,35 @@ if (!isset($_SESSION['admin_id'])) {
                     Email: <input class="form-control" type="email" name="email"><br>
                     Phone Number: <input class="form-control" type="text" name="phone_number"><br>
                     <input class="btn btn-primary" type="submit" value="Register Trainer">
+                </form>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-6">
+                <h2>Assign Trainer to Member</h2>
+                <form action="assign_trainer.php" method="POST">
+                    <label for="">Select Member</label>
+                    <select name="member" class="form-select">
+                      <?php 
+                      foreach($select_members as $member) : ?>
+                      <option value="<?php echo $member['member_id'] ?>">
+                         <?php echo $member['first_name'] . " " . $member['last_name']; ?>
+                      </option>
+                      <?php endforeach; ?>
+                    </select>
+
+                    <label for="">Select Trainer</label>
+                    <select name="trainer" class="form-select">
+                    <?php 
+                      foreach($select_trainers as $trainer) : ?>
+                      <option value="<?php echo $trainer['trainer_id'] ?>">
+                         <?php echo $trainer['first_name'] . " " . $trainer['last_name']; ?>
+                      </option>
+                      <?php endforeach; ?>
+                    </select>
+
+                    <button type="submit" class="btn btn-primary ">Assign Trainer</button>
                 </form>
             </div>
         </div>
