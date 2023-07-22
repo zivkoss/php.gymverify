@@ -56,7 +56,10 @@ if (!isset($_SESSION['admin_id'])) {
                     </thead>
                     <tbody>
                          <?php
-                         $sql = "SELECT * FROM members";
+                         $sql = "SELECT members.*,
+                         training_plans.name AS training_plan_name
+                         FROM `members` 
+                         LEFT JOIN `training_plans` ON members.training_plan_id = training_plans.plan_id;";
 
                          $run = $conn->query($sql);
 
@@ -69,11 +72,26 @@ if (!isset($_SESSION['admin_id'])) {
                             <td><?php echo $result['last_name']; ?></td>
                             <td><?php echo $result['email']; ?></td>
                             <td><?php echo $result['phone_number']; ?></td>
-                            <td><?php echo $result['trainer_id']; ?></td>
+                            <td><?php echo $result['trainer_id'];?></td>
                             <td><img style="width: 60px;" src="<?php echo $result['photo_path']; ?>"></td>
-                            <td><?php echo $result['training_plan_id']; ?></td>
-                            <td><?php echo $result['access_card_pdf_path']; ?></td>
-                            <td><?php echo $result['created_at']; ?></td>
+                            <td><?php 
+                            
+                            if($result['training_plan_name']) {
+                                echo $result['training_plan_name']; 
+                            } else {
+                                echo "Nema plana";
+                            }
+
+                            
+                            ?></td>
+                            <td><a target="_blank" href="<?php echo $result['access_card_pdf_path']; ?>">Access Card</a></td>
+                            <td><?php 
+                            
+                            $create_at = strtotime($result['created_at']);
+                            $new_date = date("F, jS Y", $create_at);
+                            echo $new_date; 
+                            
+                            ?></td>
                             <td><button>DELETE</button></td>
                          </tr>
 
@@ -152,3 +170,107 @@ if (!isset($_SESSION['admin_id'])) {
 </body>
 
 </html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- DELETED CODE  -->
+
+<!-- $plan_id = $result['training_plan_id'];
+
+                            $sql = "SELECT * FROM training_plans WHERE plan_id = ?";
+                            $run = $conn->prepare($sql);
+                            $run->bind_param('i', $plan_id);
+                            $run->execute();
+
+                            $results = $run->get_result();
+                            $results = $results->fetch_assoc();
+                        
+
+                            if($results) {
+                                echo $results['name'];
+                            } else {
+                                echo "Nema plana";
+                            } -->
