@@ -38,9 +38,9 @@ if (!isset($_SESSION['admin_id'])) {
             <div class="col-md-12">
 
                 <h2>Members List</h2>
- 
+
                 <a href="export.php?what=members" class="btn btn-success btn-sm">Export</a>
-                
+
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -124,6 +124,9 @@ if (!isset($_SESSION['admin_id'])) {
             <div class="col-md-12">
                 <h2>Trainers List</h2>
 
+                <a href="export.php?what=trainers" class="btn btn-success btn-sm">Export</a>
+
+
                 <table class="table table-striped">
                     <thead>
                         <tr>
@@ -135,7 +138,7 @@ if (!isset($_SESSION['admin_id'])) {
                         </tr>
                     </thead>
                     <tbody>
-                        <?php 
+                        <?php
                         $sql = "SELECT * FROM trainers";
                         $run = $conn->query($sql);
 
@@ -144,14 +147,14 @@ if (!isset($_SESSION['admin_id'])) {
                         //  var_dump($results);
                         foreach ($results as $result) : ?>
 
-                        <tr>
-                            <td><?php echo $result['first_name']; ?></td>
-                            <td><?php echo $result['last_name']; ?></td>
-                            <td><?php echo $result['email']; ?></td>
-                            <td><?php echo $result['phone_number']; ?></td>
-                            <td><?php echo date("F jS, Y", strtotime($result['created_at'])); ?></td>
-                        </tr> 
-                        
+                            <tr>
+                                <td><?php echo $result['first_name']; ?></td>
+                                <td><?php echo $result['last_name']; ?></td>
+                                <td><?php echo $result['email']; ?></td>
+                                <td><?php echo $result['phone_number']; ?></td>
+                                <td><?php echo date("F jS, Y", strtotime($result['created_at'])); ?></td>
+                            </tr>
+
                         <?php endforeach; ?>
 
                     </tbody>
@@ -211,22 +214,22 @@ if (!isset($_SESSION['admin_id'])) {
                 <form action="assign_trainer.php" method="POST">
                     <label for="">Select Member</label>
                     <select name="member" class="form-select">
-                      <?php 
-                      foreach($select_members as $member) : ?>
-                      <option value="<?php echo $member['member_id'] ?>">
-                         <?php echo $member['first_name'] . " " . $member['last_name']; ?>
-                      </option>
-                      <?php endforeach; ?>
+                        <?php
+                        foreach ($select_members as $member) : ?>
+                            <option value="<?php echo $member['member_id'] ?>">
+                                <?php echo $member['first_name'] . " " . $member['last_name']; ?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
 
                     <label for="">Select Trainer</label>
                     <select name="trainer" class="form-select">
-                    <?php 
-                      foreach($select_trainers as $trainer) : ?>
-                      <option value="<?php echo $trainer['trainer_id'] ?>">
-                         <?php echo $trainer['first_name'] . " " . $trainer['last_name']; ?>
-                      </option>
-                      <?php endforeach; ?>
+                        <?php
+                        foreach ($select_trainers as $trainer) : ?>
+                            <option value="<?php echo $trainer['trainer_id'] ?>">
+                                <?php echo $trainer['first_name'] . " " . $trainer['last_name']; ?>
+                            </option>
+                        <?php endforeach; ?>
                     </select>
 
                     <button type="submit" class="btn btn-primary ">Assign Trainer</button>
